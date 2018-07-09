@@ -1,0 +1,48 @@
+题目:简单主机批量管理工具
+
+需求:
+
+主机分组
+主机信息配置文件用configparser解析
+可批量执行命令、发送文件，结果实时返回，执行格式如下
+batch_run  -h h1,h2,h3   -g web_clusters,db_servers    -cmd  "df -h"　
+batch_scp   -h h1,h2,h3   -g web_clusters,db_servers  -action put  -local test.py  -remote /tmp/　
+主机用户名密码、端口可以不同
+执行远程命令使用paramiko模块
+批量命令需使用multiprocessing并发
+
+分析：
+    1：主机配置文件规划好，格式如下
+        data['主机名']['host']=127.0.0.1
+        data['主机名']['port']=22
+        data['主机名']['username']=root
+        data['主机名']['pwd']=123456
+
+        data['主机组名']['list']=主机名1，主机名3，主机名2
+
+    2 提取用户输入的有用信息：
+        2.1先提取出需要往哪些个主机地址，得到主机列表 host_list
+        2.2 然后解析命令是上传、下载或是直接执行的cmd
+
+    3 循环host_list 分别为其开启一个线程，执行paramiko里的方法（上传、下载或是直接执行的cmd的方法）
+
+结构：
+        core
+            paramiko_x （上传、下载或是直接执行的cmd的方法）
+            src 用户交互
+            thread_x 开启线程
+        conf
+            settings 项目配置信息
+            host_configparser.ini 多主机配置信息
+        interface
+            ssh_cmd 处理用户输入的内容接口
+        lib
+            common 公共方法（取主机配置信息，对文件操作等）
+        log
+            cmd_log 记录命令运行结果
+
+
+
+输出本想记录在文件，然后根据seek光标进行输出，这样需要知道每个线程是否执行完，麻烦！！ 还是直接输出。。
+
+没有用logging模块！！

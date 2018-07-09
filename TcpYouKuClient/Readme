@@ -1,0 +1,107 @@
+作业：
+基于tcp的仿优酷视频类网站
+
+本次作业是基于上一次的结果（上一次保存数据是文件，这一次是mysql）
+
+数据分析：
+    ---------->管理员权限麻烦就不搞了
+    管理员表admin:()
+        '''CREATE TABLE IF NOT EXISTS admin(
+                          id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                          `name` VARCHAR (20) NOT  NULL UNIQUE ,
+                          pwd CHAR (32) NOT NULL
+                          ) ENGINE=INNODB CHARSET=UTF8'''
+
+    用户表user:()
+        '''CREATE TABLE IF NOT EXISTS `user`(
+                          id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                          phone BIGINT(11) NOT  NULL UNIQUE ,
+                          pwd CHAR (32) NOT NULL,
+                          money DECIMAL (9,2) NOT NULL comment '余额',
+                          is_member TINYINT(1) NOT NULL DEFAULT 0 comment '是否是会员',
+                          is_delete TINYINT(1) NOT NULL DEFAULT 0 comment '是否删除'
+                          ) ENGINE=INNODB CHARSET=UTF8'''
+
+    视频表video:()
+        '''CREATE TABLE IF NOT EXISTS video(
+                          id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                          `url` VARCHAR (255) NOT  NULL  comment '视频地址',
+                          cost DECIMAL (9,2) NOT NULL comment '普通价格',
+                          member_cost DECIMAL (9,2) NOT NULL comment '会员价格',
+                          is_charge TINYINT(1) NOT NULL DEFAULT 0 comment '是否收费',
+                          is_delete TINYINT(1) NOT NULL DEFAULT 0 comment '是否删除'
+                          ) ENGINE=INNODB CHARSET=UTF8'''
+
+    下载记录表dwn_records:
+        '''CREATE TABLE IF NOT EXISTS dwn_records(
+                          id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                          user_id int NOT  NULL  ,
+                          video_id int NOT  NULL  ,
+                          cost DECIMAL (9,2) NOT NULL comment '当时付费价格'
+                          ) ENGINE=INNODB CHARSET=UTF8'''
+
+    公告表notice:
+        '''CREATE TABLE IF NOT EXISTS notice(
+                          id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                          content LONGTEXT NOT  NULL  comment '公告内容',
+                          is_delete TINYINT(1) NOT NULL DEFAULT 0 comment '是否删除'
+                          ) ENGINE=INNODB CHARSET=UTF8'''
+
+分为2个视图
+    管理视图
+        0 注册
+        1 登录
+        2 上传视频
+        3 删除视频
+        4 发布公告
+        5 查看资金
+        6 查看用户
+        7 管理用户
+
+    用户视图
+        0 注册
+        1 登录
+        2 冲会员
+        3 下载视频
+        4 查看观影（下载）记录
+        5 查看公告
+
+服务端：
+    提供接口，即返回数据（包括管理员的操作）
+    主要结构：
+        conf:create_table_sql 创表语句
+        core：接收输入
+        db:放置数据文件
+        interface:admin和user的接口
+        lib:公共方法和自定义协议
+        log:暂无写入
+        video:放置上传视频
+客户端：
+    主要结构：
+        core：接收输入
+        interface:admin和user的接口
+        lib:公共方法和自定义协议
+        dwn_data:放置下载视频
+
+查看资金那一个功能是冲会员的资金加上下载视频的资金
+
+另外冲会员的钱没有记录。。，越扩展下去越麻烦，简单点好
+
+重要！！！！！！！
+    请先在服务端的settings文件里配置好数据库信息，然后执行创表语句，在运行程序。
+    创表语句在：conf.create_table_sql 或者上面的也是
+
+问题：
+    这个sql查询出来的结果是一个元组，还得按照索引一个个取出，不知道有没有字典形式的Key=>Value ，这样就简单直观了。
+    还有，创建多线程时，对mysql的连接对象 必须是要在线程里创建。
+    另外，对mysql的操作有没有，pdo形式的，或者是自己能自定义一个mysql（单例）类方法，求教！！！！！！！！主要是懒。
+
+
+
+
+
+
+
+
+
+
