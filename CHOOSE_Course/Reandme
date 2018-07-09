@@ -1,0 +1,114 @@
+作业要求
+角色:学校、学生、课程、讲师
+要求:
+1. 创建北京、上海 2 所学校
+2. 创建linux , python , go 3个课程 ， linux\py 在北京开， go 在上海开
+3. 课程包含，周期，价格，通过学校创建课程
+4. 通过学校创建班级， 班级关联课程、讲师
+5. 创建学员时，选择学校，关联班级
+5. 创建讲师角色时要关联学校，
+6. 提供两个角色接口
+6.1 学员视图， 可以注册， 交学费， 选择班级，
+6.2 讲师视图， 讲师可管理自己的班级， 上课时选择班级， 查看班级学员列表 ， 修改所管理的学员的成绩
+6.3 管理视图，创建讲师， 创建班级，创建课程
+7. 上面的操作产生的数据都通过pickle序列化保存到文件里
+
+学生没有限制在什么校区，主动性较高，可选择多个校区的课程，
+老师所属校区也无限制，可在任意校区任课
+
+数据默认为空！！！！
+
+图片放置在images目录里
+
+思路上：此次作业是按照老师的思路来的，主要是把对象序列化保存起来，取回来还能用。
+
+结构上：视图与逻辑层及数据层分离，比较方便
+
+另外，退出当前视图，登录信息应该消失，为了方便没有清除（即是在每次调用视图的run函数时清除登录信息）
+
+
+重要：管理员默认登录名为：admin,密码：123 。若没有则去实例化admin类即可生成
+
+
+
+以下的为刘老师的Readme 模板~~~~~~~~~
+
+
+最终分为以下视图和功能：
+1 学生视图
+	0 注册
+    1 登录
+    2 选择班级
+    3 查看班级
+    4 交学费
+    5 查看成绩
+2 老师视图
+	0 登录
+    1 选择上课
+    2 查看班级信息
+    3 修改学生成绩
+3 管理视图
+    0 登录
+    1 创建校区
+    2 查看校区
+    3 创建课程
+    4 查看课程
+    5 创建老师
+    6 查看老师
+    7 创建班级
+    8 查看班级
+上面的操作产生的数据都通过pickle序列化保存到文件里
+
+
+
+
+
+总共分三个视图：
+    管理员视图：
+        login,
+        create_campus,
+        check_campus,
+        create_course,
+        check_course,
+        create_teacher,
+        check_teacher,
+        create_classes,
+        check_classes,
+    老师视图：
+        login,
+        choose_lesson,
+        check_classes_info,
+        upadte_stu_grade,
+    学生视图：
+        register,
+        login,
+        choose_classes,
+        check_classes,
+        pay_to,
+        check_grade
+
+
+conf放置配置信息setting
+core：放置用户层视图
+db：数据操作层py文件和以文件形式保存的数据
+interface：放置接口相关信息，有管理员接口，老师接口，学校接口
+lib：放置公共方法
+
+
+用户功能层：src下：
+                src：主视图，
+                admin：管理员视图，
+                student：学生视图
+                teacher：老师视图
+
+接口层：interface下：
+                admin_interface管理员的接口
+                student_interface学生的接口
+                teacher_interface老师的接口
+数据层：db目录下：
+                db_handler，各种类及类方法的定义
+                其它目录：admin，campus,course，school，student，teacher是自动生成的目录，用来存放数据信息
+
+公共方法：lib目录下：
+                common文件放一些公共方法，文件操作，登录验证等方法
+start.py启动文件

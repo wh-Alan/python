@@ -1,0 +1,10 @@
+
+
+
+默认给的空间大小10M
+
+用户信息：
+        {
+            'id':{'name':'egon','pwd':'123',mydir=['url1','url2'],'mydir_size':0,'max_size':10240000},
+            'id':{'name':'alex','pwd':'123',mydir=['url3','url2'],'mydir_size':0,'max_size':10240000}
+        }
