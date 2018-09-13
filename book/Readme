@@ -1,0 +1,29 @@
+图书管理界面
+2018-09-13
+环境配置：
+    1.前端如果懂一点vue的话，把环境装好后直接在npm run dev即可
+        1.1前端环境 (import ElementUI from 'element-ui'
+                    import VueResource from 'vue-resource'
+                    import axios from 'axios') 这些自己装一下
+                    或者根据报错信息微调一下
+    2.不懂vue的话 来个虚拟域名指向dist下的index即可，里面默认访问http://127.0.0.1:8000（即是服务端的地址）
+
+
+    3 后端就自己去配置，（
+            Django 2.1
+            PyMysql
+            django-cors-headers
+        ）
+        记得先生成数据库 数据库信息在配置文件中
+
+项目介绍：
+    主体是书，作者，出版社
+    主要就是对书的管理，CRUD ，理好关系即可
+    1.前端没有什么好说的，基本用element组件
+    2.python写的接口，没有用什么中间件过滤，也没有对输入输出过滤，喜欢的话自己去加。
+
+
+吐槽：全是些体力活，什么稀奇古怪的事啊，对http要有点理解。本想把虚拟环境弄上来的，但结果有点大了。
+
+感想：对Django框架有初步的了解，不过感觉还是很陌生。
+
